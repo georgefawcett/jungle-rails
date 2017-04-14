@@ -1,5 +1,7 @@
 class Admin::CategoriesController < ApplicationController
 
+http_basic_authenticate_with name: "george", password: "secret2"
+
     def index
     @categories = Category.order(id: :desc).all
   end
