@@ -4,7 +4,17 @@
     <h1>My Cart</h1>
   </header>
 
+
+
   <div class="panel panel-default items">
+
+  <% if cart.count == 0 %>
+  <center><br><br>
+    There are no items in your cart.
+  <br><br><br></center>
+  <% else %>
+
+
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -46,8 +56,12 @@
           data-email=@current_user.email
           data-currency="cad">
         </script>
-      <% end %>
     </div>
+
+
+<%end%>
   </div>
 
+
+<% end %>
 </section>
