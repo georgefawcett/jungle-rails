@@ -4,14 +4,37 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Welcome to example.com, George</h1>
+
+
+    <h2>Thank you for your order at Jungle!</h2>
+
     <p>
-      You have successfully signed up to example.com,
-      your username is: George.<br>
+      Your order details are as follows:
     </p>
+
     <p>
-      To login to the site, just follow this link: <%= @url %>.
+      <b>Order #</b>: <%=@orderid%>
     </p>
-    <p>Thanks for joining and have a great day!</p>
+
+    <hr>
+
+    <p>
+
+      <%
+        @order_total = 0
+        order = LineItem.where( order_id: @orderid )
+        order.each do |item|
+        order_product = Product.find( item.product_id )
+      %>
+      <%= render 'mail_line_item', product_id: item.product_id, details: item %>
+
+      <% end %>
+
+    </p>
+
+    <p>
+      <b>Order Total:</b> $<%= @order_total %>
+    </p>
+
   </body>
 </html>

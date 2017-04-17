@@ -6,9 +6,11 @@
 
   <div class="order-summary jumbotron">
     <h4>Thank you for your order, <%= current_user.first_name %>!</h4>
+    <br>
+    A confirmation e-mail has been sent to <%= @order.email %>. ... (<i>testing note: e-mails tracked on <a href="/letter_opener">letter_opener_web</a></i>)
   </div>
 
-UserMailer.order_email(@user).deliver_later
+
 
 
   <div class="panel panel-default items">

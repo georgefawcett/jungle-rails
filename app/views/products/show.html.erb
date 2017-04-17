@@ -28,4 +28,161 @@
 
   </article>
 
+
+
+
+  <table width="100%">
+    <tr>
+      <td width="58%" valign="top">
+
+        <%
+          rating_avg = Review.where(product_id: @product.id).average(:rating)
+
+        %>
+           <header class="page-header">
+            <h3>Product Reviews</h3>
+            </header>
+
+        <%
+        if rating_avg
+        %>
+
+            <b>Average Rating:</b>
+            <%
+            full_stars = rating_avg.round
+            empty_stars = 5 - rating_avg.round
+            while full_stars > 0 do %>
+              <i class="fa fa-star" aria-hidden="true" style="
+              color: yellow;
+              text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black
+              "></i>
+              <% full_stars -= 1
+            end
+            while empty_stars > 0 do %>
+              <i class="fa fa-star-o" aria-hidden="true"></i>
+              <% empty_stars -= 1
+            end
+            %>
+
+            (<%=rating_avg.round(1) %> / 5)
+            <br><br>
+
+            <%
+            reviews = Review.where(product_id: @product.id)
+            reviews.order('created_at desc').each do |review| %>
+
+              <div class="greyborder" style="margin-top: 10px">
+
+                <% user = User.where(id: review.user_id) %>
+
+                 <%
+               # Check to see if this product has already been reviewed by
+               # the logged-in user.  If so, delete button will be added to their review,
+               # and they will not be able to re-review the same product
+               # (unless they delete their existing review)
+
+
+                if user[0].id == current_user.id
+                  reviewed = true
+                  @reviewed = true
+                  reviewer_name = "You"
+                else
+                  reviewer_name = "#{user[0].first_name} #{user[0].last_name}"
+                end
+
+            %>
+
+
+
+                <b><%= reviewer_name %></b> wrote:
+
+                <%
+                  if reviewed == true
+                %>
+                  <div style="float: right; color: #aaaaaa; font-size: 85%">
+                  Delete review:
+                  <%= link_to fa_icon('trash'), [@product, review], class: 'btn btn-sm btn-danger', method: :delete, data: { confirm: "Are you sure you want to delete this review?" } %>
+                  </div>
+                <% end %>
+
+                <br>
+                <%= review.description %>
+                <br>
+
+                <%
+                full_stars = review.rating
+                empty_stars = 5 - review.rating
+                while full_stars > 0 do %>
+                  <i class="fa fa-star" aria-hidden="true" style="
+                  color: yellow;
+                  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black
+                  "></i>
+                  <% full_stars -= 1
+                end
+                while empty_stars > 0 do %>
+                  <i class="fa fa-star-o" aria-hidden="true"></i>
+                  <% empty_stars -= 1
+                end
+                %>
+              </div>
+
+            <%
+            # End the results loop
+            end %>
+
+
+
+        <% else %>
+
+          <div class="greyborder">
+            <br><br>
+            <center>No one has reviewed this product yet!</center>
+            <br><br>
+          </div>
+
+        <% end %>
+
+
+
+      </td>
+      <td width="*" valign="top" style="padding-left: 35px">
+
+        <header class="page-header" style="width: 100%">
+          <h3>Add a Review</h3>
+        </header>
+
+        <div class="greyborder" style="width: 100%">
+
+        <%
+        if @reviewed == true
+        %>
+          <br><br>
+          <center>You have already reviewed this product!</center>
+          <br><br>
+        <% else %>
+
+          <%= form_for [@product, @review] do |f| %>
+            <label for="rating">Rating:</label>
+            <%= f.select(:rating, [5, 4, 3, 2, 1], class: 'form-control') %>
+            <br><br>
+            <label for="description">Comments:</label>
+            <%= f.text_area :description, class: 'form-control' %>
+            <br>
+            <%= f.submit "Add Review", class: 'form-control' %>
+          <% end %>
+
+        <% end %>
+
+        </td
+      </tr>
+    </table>
+
+
+
+
+
+
+
+
+
 </section>

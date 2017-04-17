@@ -1,11 +1,14 @@
 class UserMailer < ApplicationMailer
 
-   default from: 're-play@jungle.com'
+   default from: 'no-reply@jungle.com'
 
-  def order_email(user)
-    @user = user
-    @url  = 'http://localhost:3000'
-    mail(to: 'georgealanfawcett@gmail.com', subject: 'Thank you for your order!')
+  def order_email(order)
+
+
+    @orderemail = order.email
+    @orderid = order.id
+    @subject = "Jungle Order Confirmation: Order ##{@orderid}"
+    mail(to: @orderemail, subject: @subject)
   end
 
 

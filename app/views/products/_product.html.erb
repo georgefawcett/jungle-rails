@@ -8,10 +8,49 @@
   <p class="description">
     <%= product.description %>
   </p>
+
+  <p class="indexrating">
+  <%
+  rating_avg = Review.where(product_id: product.id).average(:rating)
+  if rating_avg
+  %>
+
+      Rating:
+            <%
+            full_stars = rating_avg.round
+            empty_stars = 5 - rating_avg.round
+            while full_stars > 0 do %>
+              <i class="fa fa-star" aria-hidden="true" style="
+              color: yellow;
+              text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black
+              "></i>
+              <% full_stars -= 1
+            end
+            while empty_stars > 0 do %>
+              <i class="fa fa-star-o" aria-hidden="true"></i>
+              <% empty_stars -= 1
+            end
+            %>
+
+
+
+  <% else %>
+
+    No ratings yet!
+
+  <% end %>
+
+
+  </p>
+
   <footer class="actions">
-    <%= link_to add_item_cart_path(product_id: product.id), class: 'btn btn-primary', method: :put do %>
-      <%= fa_icon "shopping-cart", text: 'Add' %>
-    <% end %>
+
+      <% if product.quantity > 0 %>
+        <%= link_to add_item_cart_path(product_id: product.id), class: 'btn btn-primary', method: :put do %>
+          <%= fa_icon "shopping-cart", text: 'Add' %>
+        <% end %>
+      <% end %>
+
     <%= link_to product, class: 'btn btn-default pull-right' do %>
       Details &raquo;
     <% end %>

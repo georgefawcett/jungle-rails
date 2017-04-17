@@ -2,10 +2,17 @@
 
 <h1>Login</h1>
 
-<%= form_tag '/login' do %>
+<div style="width: 20%" class="greyborder">
 
-  Email: <%= text_field_tag :email %>
-  Password: <%= password_field_tag :password %>
-  <%= submit_tag "Submit" %>
+  <%= form_tag '/login' do %>
+    <label for="email">E-mail:</label>
+    <%= text_field_tag 'email', '', class: 'form-control' %>
+    <br>
+    <label for="password">Password:</label>
+    <%= password_field_tag :password, '', class: 'form-control' %>
+    <br>
+    <%= submit_tag "Login", class: 'form-control'%>
+  <% end %>
 
-<% end %>
+</div>
+
