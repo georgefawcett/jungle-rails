@@ -82,7 +82,7 @@
                # (unless they delete their existing review)
 
 
-                if user[0].id == current_user.id
+                if current_user && user[0].id == current_user.id
                   reviewed = true
                   @reviewed = true
                   reviewer_name = "You"
