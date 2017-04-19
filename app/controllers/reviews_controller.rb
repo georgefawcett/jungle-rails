@@ -1,5 +1,7 @@
 class ReviewsController < ApplicationController
-  before_filter :authorize
+
+
+
 
   def create
     @product = Product.find(params[:product_id])
@@ -16,6 +18,7 @@ class ReviewsController < ApplicationController
 
   end
 
+
   def destroy
     @review = Review.find params[:id]
     @product = Product.find(params[:product_id])
@@ -26,8 +29,11 @@ class ReviewsController < ApplicationController
     end
   end
 
+
   private
     def review_params
       params.require(:review).permit(:rating, :description)
     end
+
+
 end
